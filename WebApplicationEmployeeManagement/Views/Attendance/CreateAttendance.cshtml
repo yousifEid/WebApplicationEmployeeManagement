@@ -1,0 +1,37 @@
+﻿@model DAL.Models.Attendance
+@{
+    ViewBag.Title = "CreateAttendance";
+}
+
+<h2>Add Attendance</h2>
+
+<form asp-controller="Attendance" asp-action="AddAttendance" method="post">
+
+    @ViewBag.Message
+    <div asp-validation-summary="All"></div>
+
+    <div class="form-group">
+        <label>TimeAttendance</label>
+        <input type="datetime-local" asp-for="TimeAttendance" class="form-control" />
+        <span class="text-danger" asp-validation-for="TimeAttendance"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Time Leave</label>
+        <input type="datetime-local" asp-for="TimeLeave" class="form-control" />
+        <span class="text-danger" asp-validation-for="TimeLeave"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label>Employee Name</label>
+        @Html.DropDownListFor(m => m.EmployeesId, (SelectList)ViewBag.Employees, new { @class = "form-control" })
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.EmployeesId)</span>
+    </div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+
+</form>

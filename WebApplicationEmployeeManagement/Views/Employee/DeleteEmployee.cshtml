@@ -1,0 +1,28 @@
+﻿@model DAL.Models.Employees
+@{
+    ViewBag.Title = "DeleteEmployee";
+}
+
+<h2> Delete Employee</h2>
+
+<form asp-controller="Employee" asp-action="ConfirmDeleteEmployee" asp-route-id="@Model.Id" method="post">
+
+    <h4>Are you sure you want to delete?</h4>
+
+    <ul>
+        <li> @Model.Id </li>
+        <li> @Model.Name </li>
+        <li> @Model.IdNumber </li>
+        <li> @Model.Photo</li>
+        <li> @Model.JobTitle</li>
+        <li> @Model.Gender</li>
+    </ul>
+
+    <button class="btn btn-danger" type="submit">delete</button>
+</form>
+
+<div>
+    <a asp-action="Index" asp-controller="Employee" class="btn btn-primary"> Return to Employees list</a>
+</div>
+
+

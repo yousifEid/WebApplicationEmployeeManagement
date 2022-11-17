@@ -1,0 +1,27 @@
+﻿@model List<DAL.Models.Attendance>
+@{
+    ViewBag.Title = "ShowAttendance";
+}
+
+<h2>Show Attendance</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Time Attendance</th>
+            <th>Time Leave</th>
+            <th>Employee Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TimeAttendance.ToString("yyyy-MM-dd hh:mm:ss tt")</td>
+                <td>@item.TimeLeave.ToString("yyyy-MM-dd hh:mm:ss tt")</td>
+                <td>@item.Employees.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
