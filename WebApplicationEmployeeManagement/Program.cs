@@ -14,6 +14,7 @@ builder.Services.AddSession();
 
 builder.Services.AddScoped<EmployeeDomain>();
 builder.Services.AddScoped<AttendanceDomain>();
+builder.Services.AddScoped<ShiftDomain>();
 
 
 
@@ -21,6 +22,7 @@ builder.Services.AddScoped<AttendanceDomain>();
 
 builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddScoped<AttendanceRepository>();
+builder.Services.AddScoped<ShiftRepository>();
 
 var app = builder.Build();
 

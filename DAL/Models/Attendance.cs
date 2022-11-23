@@ -13,13 +13,30 @@ namespace DAL.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public DateTime TimeAttendance { get; set; }
         public DateTime TimeLeave { get; set; }
-        
+
+        [NotMapped]
+        public TimeSpan Duration
+        {
+            get
+            {
+                if (TimeLeave != null && TimeAttendance != null)
+                    return TimeLeave - TimeAttendance;
+
+                return default;
+            }
+        }
 
 
         [ForeignKey(nameof(Employees))]
         public int EmployeesId { get; set; }
         public Employees? Employees { get; set; }
+
+
+        [ForeignKey(nameof(Shift))]
+        public int ShiftId { get; set; } 
+        public Shift? Shift { get; set; }
     }
 }

@@ -1,0 +1,22 @@
+﻿@model DAL.Models.Shift
+@{
+    ViewBag.Title = "DeleteShift";
+}
+
+<h2> Delete Shift</h2>
+
+<form asp-controller="Shift" asp-action="ConfirmDeleteShift" asp-route-id="@Model.Id" method="post">
+
+    <h4>Are you sure you want to delete?</h4>
+
+    <ul>
+        <li> @Model.Id </li>
+        <li> @Model.ShiftName </li>
+    </ul>
+
+    <button class="btn btn-danger" type="submit">delete</button>
+</form>
+
+<div>
+    <a asp-action="Index" asp-controller="Shift" class="btn btn-primary"> Return to shift list</a>
+</div>

@@ -17,6 +17,8 @@ namespace DAL.Models
 
         public DbSet<Employees> Employees { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

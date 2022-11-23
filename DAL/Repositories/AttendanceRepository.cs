@@ -33,7 +33,9 @@ namespace DAL.Repositories
 
         public Attendance Delete(int id)
         {
-            var attendance = _db.Attendances.Include(e => e.Employees).Where(e => e.Id == id).FirstOrDefault();
+            var attendance = _db.Attendances.Include(e => e.Employees)
+                .Include(e=>e.Shift)
+                .Where(e => e.Id == id).FirstOrDefault();
             _db.Entry(attendance).State = EntityState.Deleted;
             _db.Attendances.Remove(attendance);
             _db.SaveChanges();
@@ -42,21 +44,27 @@ namespace DAL.Repositories
 
         public List<Attendance> GetAll()
         {
-            var attendance = _db.Attendances.Include(e => e.Employees).ToList();
+            var attendance = _db.Attendances.Include(e => e.Employees)
+                .Include(e=>e.Shift)
+                .ToList();
 
             return attendance;
         }
 
         public Attendance GetById(int id)
         {
-            var attendance = _db.Attendances.Include(e => e.Employees).Where(e => e.Id == id).FirstOrDefault();
+            var attendance = _db.Attendances.Include(e => e.Employees)
+                .Include(e=>e.Shift)
+                .Where(e => e.Id == id).FirstOrDefault();
             return attendance;
         }
 
         public List<Attendance> GetAttendanceByDate(DateTime date)
         {
-            var atttendance = _db.Attendances.Include(e => e.Employees)
-                .Where(e => e.TimeAttendance >= date && e.TimeAttendance < date.AddDays(1)).ToList();
+            var atttendance = _db.Attendances.Include(e => e.Employees).Include(e=>e.Shift)
+                .Where(e => e.TimeAttendance >= date && e.TimeAttendance < date.AddDays(1))
+                .OrderBy(e=>e.TimeAttendance)
+                .ToList();
             return atttendance;
         }
     }

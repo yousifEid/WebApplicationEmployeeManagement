@@ -13,6 +13,7 @@
             <th>Time Attendance</th>
             <th>Time Leave</th>
             <th>Employee Name</th>
+            <th>Shift</th>
             <th></th>
             <th></th>
         </tr>
@@ -26,6 +27,7 @@
                 <td>@item.TimeAttendance</td>
                 <td>@item.TimeLeave</td>
                 <td>@item.Employees.Name</td>
+                <td>@item.Shift.ShiftName</td>
 
                 <td>
                     <a class="btn btn-warning" asp-action="EditAttendance" asp-route-id="@item.Id">Edit</a>
@@ -41,8 +43,3 @@
 
 
 
-<ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-   
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-</ul>

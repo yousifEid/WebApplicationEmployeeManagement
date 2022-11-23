@@ -9,12 +9,14 @@ namespace WebApplicationEmployeeManagement.Controllers
     {
         public readonly AttendanceDomain _attendanceDomain;
         public readonly EmployeeDomain _employeeDomain;
+        public readonly ShiftDomain _shiftDomain;
 
         public AttendanceController(AttendanceDomain attendanceDomain,
-            EmployeeDomain employeeDomain)
+            EmployeeDomain employeeDomain,ShiftDomain shiftDomain)
         {
             _attendanceDomain = attendanceDomain;
             _employeeDomain = employeeDomain;
+            _shiftDomain = shiftDomain;
         }
 
         public IActionResult Index()
@@ -27,6 +29,9 @@ namespace WebApplicationEmployeeManagement.Controllers
         {
             List<Employees> employees = _employeeDomain.GetAll();
             ViewBag.Employees = new SelectList(employees, "Id", "Name");
+
+            List<Shift> shifts = _shiftDomain.GetAll();
+            ViewBag.Shift = new SelectList(shifts, "Id", "ShiftName");
 
             return View();
         }
@@ -42,6 +47,9 @@ namespace WebApplicationEmployeeManagement.Controllers
             List<Employees> employees = _employeeDomain.GetAll();
             ViewBag.Employees = new SelectList(employees, "Id", "Name");
 
+            List<Shift> shifts = _shiftDomain.GetAll();
+            ViewBag.Shift = new SelectList(shifts, "Id", "ShiftName");
+
 
             return View("CreateAttendance", attendance);
         }
@@ -52,6 +60,9 @@ namespace WebApplicationEmployeeManagement.Controllers
 
             List<Employees> employees = _employeeDomain.GetAll();
             ViewBag.Employees = new SelectList(employees, "Id", "Name");
+
+            List<Shift> shifts = _shiftDomain.GetAll();
+            ViewBag.Shift = new SelectList(shifts, "Id", "ShiftName");
 
             return View(attendance);
         }
@@ -85,6 +96,7 @@ namespace WebApplicationEmployeeManagement.Controllers
         public IActionResult ShowAttendance(DateTime date)
         {
             var attendance = _attendanceDomain.GetAttendanceByDate(date);
+            ViewBag.date = date;
             return View(attendance);
         }
     }
