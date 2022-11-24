@@ -42,9 +42,9 @@ namespace BLL.Domains
             return _attendanceRepository.GetById(id);
         }
 
-        public List<Attendance> GetAttendanceByDate(DateTime date)
+        public List<Attendance> GetAttendanceByDate(DateTime date, int? EmployeesId = null)
         {
-            return _attendanceRepository.GetAttendanceByDate(date);
+            return _attendanceRepository.GetAttendanceByDate(date, EmployeesId);
         }
     }
 }

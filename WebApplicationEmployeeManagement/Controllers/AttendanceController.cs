@@ -93,10 +93,14 @@ namespace WebApplicationEmployeeManagement.Controllers
             return RedirectToAction("Index", attendance);
         }
 
-        public IActionResult ShowAttendance(DateTime date)
+        public IActionResult ShowAttendance(DateTime date, int? EmployeesId = null)
         {
-            var attendance = _attendanceDomain.GetAttendanceByDate(date);
+            var attendance = _attendanceDomain.GetAttendanceByDate(date, EmployeesId);
             ViewBag.date = date;
+
+            List<Employees> employees = _employeeDomain.GetAll();
+            ViewBag.Employees = new SelectList(employees, "Id", "Name");
+
             return View(attendance);
         }
     }
