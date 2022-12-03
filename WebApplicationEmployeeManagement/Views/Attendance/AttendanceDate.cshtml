@@ -1,32 +1,39 @@
 ﻿@model List<DAL.Models.Attendance>
 @{
-    ViewBag.Title = "ShowAttendance";
+    ViewBag.Title = "AttendanceDate";
 }
 
-<h2>Show Attendance @ViewBag.date.ToString("yyyy-MM-dd") </h2>
+<h2>Attendance Date</h2>
 
-<div class="my-4">
-    <form asp-controller="Attendance" asp-action="ShowAttendance" method="get">
+
+<div>
+    <form asp-controller="Attendance" asp-action="AttendanceDate" method="get">
         <div class="row">
-            <div class="col-4">
-                <input class="form-control" type="date" name="date" value="@ViewBag.date.ToString("yyyy-MM-dd")" />
+            <div class="col-2">
+                <input class="form-control" type="month" name="date" value="@ViewBag.date.ToString("yyyy-MM")" />
             </div>
 
-            <div class="col-4">
+            <div class="col-2">
                 @Html.DropDownList("EmployeesId", (SelectList)ViewBag.Employees, "All Employees", new { @class = "form-control" })
                 <span class="text-danger">@Html.ValidationMessage("EmployeesId")</span>
             </div>
 
-            <div class="col-4">
-                <button class="btn btn-primary" type="submit">SEARCH </button>
+            <div class="col-2">
+                @Html.DropDownList("ShiftId", (SelectList)ViewBag.Shift, "All shifts", new { @class = "form-control" })
+                <span class="text-danger">@Html.ValidationMessage("ShiftId")</span>
             </div>
+
+            <div class="col-2">
+                <button class="btn btn-primary" type="submit">search date </button>
+            </div>
+
+            <div class="col-2"><button onclick="display()" class="btn btn-primary">Click to Print</button></div>
         </div>
     </form>
 </div>
 
+
 <div>
-    <p>To print an employee's schedule, click here</p>
-    <button onclick="display()" class="btn btn-primary">Click to Print</button>
     <script>
         function display() {
             window.print();
@@ -39,7 +46,7 @@
         <tr>
             <th>Time Attendance</th>
             <th>Time Leave</th>
-            <th>Employee Name</th> 
+            <th>Employee Name</th>
             <th>Hours Job</th>
             <th>Shift</th>
         </tr>
@@ -73,5 +80,3 @@
         }
     </tbody>
 </table>
-
-

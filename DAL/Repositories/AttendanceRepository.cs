@@ -69,5 +69,25 @@ namespace DAL.Repositories
                 .ToList();
             return atttendance;
         }
+
+        public List<Attendance> SearchAttendance(DateTime date, int? employeesId = null,
+           int? shiftId = null)
+        {
+            var attendance = _db.Attendances.Include(e => e.Employees).Include(e => e.Shift)
+               .Where(e => e.TimeAttendance >= date
+                        && e.TimeAttendance < date.AddMonths(1)
+                        && (employeesId.HasValue ? e.EmployeesId == employeesId : true)
+                        && (shiftId.HasValue? e.ShiftId==shiftId:true)
+                        ).OrderBy(e => e.TimeAttendance)
+                        .ThenBy(e => e.TimeLeave)
+                        .ToList();
+            return attendance;
+        }
+
+        //public List<Attendance> SearchAttendance()
+        //{
+        //    var attendance = _db.Attendances.Include(e => e.Employees).Include(e => e.Shift)
+        //        .Where(e => e.Shift == shift)
+        //}
     }
-}
+} 

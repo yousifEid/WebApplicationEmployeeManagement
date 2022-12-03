@@ -103,5 +103,22 @@ namespace WebApplicationEmployeeManagement.Controllers
 
             return View(attendance);
         }
+
+        public IActionResult AttendanceDate(DateTime date, int? employeesId = null,
+           int? shiftId = null)
+        {
+            var attendance = _attendanceDomain.SearchAttendance(date,employeesId,shiftId);
+            ViewBag.date = date;
+
+            List<Employees> employees = _employeeDomain.GetAll();
+            ViewBag.Employees = new SelectList(employees, "Id", "Name");
+
+            
+
+            List<Shift> shifts = _shiftDomain.GetAll();
+            ViewBag.Shift = new SelectList(shifts, "Id", "ShiftName");
+
+            return View(attendance);
+        }
     }
 }

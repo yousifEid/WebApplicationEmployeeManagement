@@ -46,5 +46,11 @@ namespace BLL.Domains
         {
             return _attendanceRepository.GetAttendanceByDate(date, EmployeesId);
         }
+
+        public List<Attendance> SearchAttendance(DateTime date,int? employeesId = null,
+            int? shiftId =null)
+        {
+            return _attendanceRepository.SearchAttendance(date,employeesId,shiftId);
+        }
     }
 }
