@@ -8,25 +8,30 @@
 <div class="my-4">
     <form asp-controller="Attendance" asp-action="ShowAttendance" method="get">
         <div class="row">
-            <div class="col-4">
+            <div class="col-2">
                 <input class="form-control" type="date" name="date" value="@ViewBag.date.ToString("yyyy-MM-dd")" />
             </div>
 
-            <div class="col-4">
+            <div class="col-2">
                 @Html.DropDownList("EmployeesId", (SelectList)ViewBag.Employees, "All Employees", new { @class = "form-control" })
                 <span class="text-danger">@Html.ValidationMessage("EmployeesId")</span>
             </div>
 
-            <div class="col-4">
+            <div class="col-2">
+                @Html.DropDownList("ShiftId", (SelectList)ViewBag.Shift, "All shifts", new { @class = "form-control" })
+                <span class="text-danger">@Html.ValidationMessage("ShiftId")</span>
+            </div>
+
+            <div class="col-2">
                 <button class="btn btn-primary" type="submit">SEARCH </button>
             </div>
+
+            <div class="col-2"><button onclick="display()" class="btn btn-primary">Click to Print</button></div>
         </div>
     </form>
 </div>
 
 <div>
-    <p>To print an employee's schedule, click here</p>
-    <button onclick="display()" class="btn btn-primary">Click to Print</button>
     <script>
         function display() {
             window.print();

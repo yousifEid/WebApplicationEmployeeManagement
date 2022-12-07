@@ -59,11 +59,13 @@ namespace DAL.Repositories
             return attendance;
         }
 
-        public List<Attendance> GetAttendanceByDate(DateTime date, int? EmployeesId = null)
+        public List<Attendance> GetAttendanceByDate(DateTime date, int? EmployeesId = null,
+            int? shiftId = null)
         {
             var atttendance = _db.Attendances.Include(e => e.Employees).Include(e => e.Shift)
                 .Where(e => e.TimeAttendance >= date && e.TimeAttendance < date.AddDays(1)
-                            && (EmployeesId.HasValue ? e.EmployeesId == EmployeesId : true))
+                            && (EmployeesId.HasValue ? e.EmployeesId == EmployeesId : true)
+                            && (shiftId.HasValue ? e.ShiftId == shiftId : true))
                 .OrderBy(e => e.TimeAttendance)
                 .ThenBy(e => e.TimeLeave)
                 .ToList();
@@ -84,10 +86,5 @@ namespace DAL.Repositories
             return attendance;
         }
 
-        //public List<Attendance> SearchAttendance()
-        //{
-        //    var attendance = _db.Attendances.Include(e => e.Employees).Include(e => e.Shift)
-        //        .Where(e => e.Shift == shift)
-        //}
     }
 } 

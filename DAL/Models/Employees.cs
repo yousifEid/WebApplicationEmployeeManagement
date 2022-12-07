@@ -10,6 +10,11 @@ namespace DAL.Models
 {
     public class Employees
     {
+        public Employees()
+        {
+            Attendances = new List<Attendance>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -19,6 +24,6 @@ namespace DAL.Models
         public int? IdNumber { get; set; }
         public string? Gender { get; set; }
 
-
+        public List<Attendance>? Attendances { get; set; }
     }
 }

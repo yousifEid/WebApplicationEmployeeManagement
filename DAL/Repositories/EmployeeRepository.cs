@@ -42,7 +42,7 @@ namespace DAL.Repositories
 
         public List<Employees> GetAll()
         {
-            var employee = _db.Employees.ToList();
+            var employee = _db.Employees.Include(e => e.Attendances).ToList();
 
             return employee;
         }

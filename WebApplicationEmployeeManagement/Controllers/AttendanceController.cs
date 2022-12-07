@@ -93,13 +93,17 @@ namespace WebApplicationEmployeeManagement.Controllers
             return RedirectToAction("Index", attendance);
         }
 
-        public IActionResult ShowAttendance(DateTime date, int? EmployeesId = null)
+        public IActionResult ShowAttendance(DateTime date, int? EmployeesId = null,
+           int? shiftId = null)
         {
-            var attendance = _attendanceDomain.GetAttendanceByDate(date, EmployeesId);
+            var attendance = _attendanceDomain.GetAttendanceByDate(date, EmployeesId,shiftId);
             ViewBag.date = date;
 
             List<Employees> employees = _employeeDomain.GetAll();
             ViewBag.Employees = new SelectList(employees, "Id", "Name");
+
+            List<Shift> shifts = _shiftDomain.GetAll();
+            ViewBag.Shift = new SelectList(shifts, "Id", "ShiftName");
 
             return View(attendance);
         }
@@ -120,5 +124,7 @@ namespace WebApplicationEmployeeManagement.Controllers
 
             return View(attendance);
         }
+
+        
     }
 }

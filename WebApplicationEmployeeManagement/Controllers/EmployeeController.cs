@@ -86,5 +86,11 @@ namespace WebApplicationEmployeeManagement.Controllers
             var employee = _employeeDomain.Delete(id);
             return RedirectToAction("Index", employee);
         }
+
+        public IActionResult ShowEmployeeDay()
+        {
+            var employees = _employeeDomain.GetAll();
+            return View(employees);
+        }
     }
 }
