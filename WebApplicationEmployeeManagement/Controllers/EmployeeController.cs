@@ -89,7 +89,7 @@ namespace WebApplicationEmployeeManagement.Controllers
 
         public IActionResult ShowEmployeeDay()
         {
-            var employees = _employeeDomain.GetAll();
+            var employees = _employeeDomain.GetAll(); 
             return View(employees);
         }
     }
