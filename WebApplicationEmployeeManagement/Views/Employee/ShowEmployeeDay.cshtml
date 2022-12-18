@@ -3,56 +3,118 @@
     ViewBag.Title = "ShowEmployeeDay";
 }
 
-<h2>Show Employee Day</h2>
+<h2>Show Employee Day @ViewBag.date.ToString("yyyy-MMMM")</h2>
 
+<form asp-controller="Employee" asp-action="ShowEmployeeDay" method="get">
+    <div>
+        <div class="col-2">
+            <input class="form-control" type="month" name="date" value="@ViewBag.date.ToString("yyyy-MM")" />
+        </div>
 
-<table class="table table-striped table-hover table-bordered">
-    <thead>
-        <tr>
-            <th>day</th>
+        <div class="co-2" style="margin:15px">
+            <button class="btn btn-primary" type="submit">Show Employee Table </button>
+        </div>
+    </div>
 
-            @foreach (var item in Model)
-            {
-                <th class="text-center">@item.Name</th>
-            }
-        </tr>
-    </thead>
-  
-    <tbody>
-        @for (int i = 1; i <= 30; i++)
-        {
-            var attendanceDate = new DateTime(DateTime.Now.Year, 5, i, 00, 00, 00);
-            var leaveDate = new DateTime(DateTime.Now.Year, 5, i, 23, 59, 59);
-
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
             <tr>
-                <td>@i</td>
+                <th>day</th>
 
                 @foreach (var item in Model)
                 {
-                    var dayAttendance = item.Attendances.Where(e => e.TimeAttendance >= attendanceDate 
-                                                                 && e.TimeLeave <= leaveDate).FirstOrDefault();
-
-                    <td class="text-center">
-                        @if (dayAttendance != null)
-                        {
-                            <div class="text-success">
-                                @dayAttendance?.TimeAttendance.ToString("hh:mm:ss tt")
-                            </div>
-
-                            <div class="text-danger">
-                                @dayAttendance?.TimeLeave.ToString("hh:mm:ss tt")
-                            </div>
-                        }
-                        else 
-                        {
-                            <div class="text-dagner text-muted">
-                                لا توجد بصمة
-                            </div>
-                        }
-                    </td>
+                    <th class="text-center" colspan="3">@item.Name</th>
                 }
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @for (int i = 1; i <= 30; i++)
+            {
+                var attendanceDate = new DateTime(ViewBag.date.Year, ViewBag.date.Month, i, 00, 00, 00);
+                var leaveDate = new DateTime(ViewBag.date.Year, ViewBag.date.Month, i, 23, 59, 59);
+
+
+                    <tr>
+                        <td>@i</td>
+
+                        @foreach (var item in Model)
+                        {
+                            var morningDayAttendance = item.Attendances.Where(e => e.TimeAttendance >= attendanceDate
+                            && e.TimeLeave <= leaveDate && e.ShiftId == 1).FirstOrDefault();
+
+                            var eveningDayAttendance = item.Attendances.Where(e => e.TimeAttendance >= attendanceDate
+                            && e.TimeLeave <= leaveDate && e.ShiftId == 2).FirstOrDefault();
+
+                            var overtimeDayAttendance = item.Attendances.Where(e => e.TimeAttendance >= attendanceDate
+                            && e.TimeLeave <= leaveDate && e.ShiftId == 3).FirstOrDefault();
+
+
+                            <td class="text-center">
+                                <h6>الفترة الصباحية</h6>
+                                @if (morningDayAttendance != null)
+                                {
+                                    <div class="text-success">
+                                        @morningDayAttendance?.TimeAttendance.ToString("hh:mm:ss tt")
+
+                                    </div>
+
+                                    <div class="text-danger">
+                                        @morningDayAttendance?.TimeLeave.ToString("hh:mm:ss tt")
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-dagner text-muted">
+                                        لا توجد بصمة
+                                    </div>
+                                }
+                            </td>
+
+                            <td class="text-center">
+                                <h6>الفترة المسائية</h6>
+                                @if (eveningDayAttendance != null)
+                                {
+                                    <div class="text-success">
+                                        @eveningDayAttendance?.TimeAttendance.ToString("hh:mm:ss tt")
+                                    </div>
+
+                                    <div class="text-danger">
+                                        @eveningDayAttendance?.TimeLeave.ToString("hh:mm:ss tt")
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-dagner text-muted">
+                                        لا توجد بصمة
+                                    </div>
+                                }
+                            </td>
+
+                            <td class="text-center">
+                                <h6>الفترة الإضافية</h6>
+                                @if (overtimeDayAttendance != null)
+                                {
+                                    <div class="text-success">
+                                        @overtimeDayAttendance?.TimeAttendance.ToString("hh:mm:ss tt")
+                                    </div>
+
+                                    <div class="text-danger">
+                                        @overtimeDayAttendance?.TimeLeave.ToString("hh:mm:ss tt")
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-dagner text-muted">
+                                        لا توجد بصمة
+                                    </div>
+                                }
+                            </td>
+                        }
+                    </tr>
+                
+            }
+        </tbody>
+    </table>
+</form>
 

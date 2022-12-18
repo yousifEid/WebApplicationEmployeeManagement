@@ -87,9 +87,11 @@ namespace WebApplicationEmployeeManagement.Controllers
             return RedirectToAction("Index", employee);
         }
 
-        public IActionResult ShowEmployeeDay()
+        public IActionResult ShowEmployeeDay(DateTime date)
         {
-            var employees = _employeeDomain.GetAll(); 
+            var employees = _employeeDomain.GetAll();
+            ViewBag.date = date;
+
             return View(employees);
         }
     }

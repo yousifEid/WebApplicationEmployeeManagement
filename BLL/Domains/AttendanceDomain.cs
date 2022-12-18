@@ -1,4 +1,5 @@
-﻿using DAL.Models;
+﻿using BLL.Dtos;
+using DAL.Models;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,66 @@ namespace BLL.Domains
             _attendanceRepository = attendanceRepository;
         }
 
-        public Attendance Insert(Attendance attendance)
+        public ResponseObject Insert(Attendance attendance)
         {
-            return _attendanceRepository.Insert(attendance);
+            ResponseObject result = new ResponseObject();
+
+            if (attendance.TimeLeave <= DateTime.Now)
+            {
+                if (attendance.TimeAttendance <= DateTime.Now)
+                {
+                    if (attendance.TimeAttendance.ToString("yyyy-MM-dd") == attendance.TimeLeave.ToString("yyyy-MM-dd")
+                        || attendance.ShiftId == 3)
+                    {
+                        result.Data = _attendanceRepository.Insert(attendance);
+                    }
+                    else
+                    {
+                        result.ErrorMessage = "تاريخ الايام غير مطابق";
+                    }
+                }
+                else
+                {
+                    result.ErrorMessage = "تاريخ الحضور اكبر من التاريخ الحالي";
+                }
+            }
+            else
+            {
+                result.ErrorMessage = "تاريخ الانصراف اكبر من التاريخ الحالي";
+            }
+
+            return result;
         }
 
-        public Attendance Update(Attendance attendance)
+        public ResponseObject Update(Attendance attendance)
         {
-            return _attendanceRepository.Update(attendance);
+            ResponseObject result = new ResponseObject();
+
+            if (attendance.TimeLeave <= DateTime.Now)
+            {
+                if (attendance.TimeAttendance <= DateTime.Now)
+                {
+                    if (attendance.TimeAttendance.ToString("yyyy-MM-dd") == attendance.TimeLeave.ToString("yyyy-MM-dd")
+                        || attendance.ShiftId == 3)
+                    {
+                        result.Data = _attendanceRepository.Update(attendance);
+                    }
+                    else
+                    {
+                        result.ErrorMessage = "تاريخ الايام غير مطابق";
+                    }
+                }
+                else
+                {
+                    result.ErrorMessage = "تاريخ الحضور اكبر من التاريخ الحالي";
+                }
+            }
+            else
+            {
+                result.ErrorMessage = "تاريخ الانصراف اكبر من التاريخ الحالي";
+            }
+
+            return result;
         }
 
         public Attendance Delete(int id)
