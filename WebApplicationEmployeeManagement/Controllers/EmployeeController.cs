@@ -20,31 +20,44 @@ namespace WebApplicationEmployeeManagement.Controllers
             var employees = _employeeDomain.GetAll();
             return View(employees);
         }
-
+        [HttpGet]
         public IActionResult CreateEmployee()
         {
             return View();
         }
-
-        public IActionResult AddEmployee(Employees employees,IFormFile? photo)
+        [HttpPost]
+        public IActionResult CreateEmployee(Employees employees, IFormFile? photo)
         {
             if (ModelState.IsValid)
             {
-                if (photo != null)
+                var employeesByEmail = _employeeDomain.SearchMail(employees.Mail);
+                if (employeesByEmail == null)
                 {
-                    var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                    var filePath = Path.Combine(uploads, photo.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+
+                    if (photo != null)
                     {
-                        photo.CopyTo(stream);
+                        var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                        var filePath = Path.Combine(uploads, photo.FileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            photo.CopyTo(stream);
+                        }
+                        employees.Photo = "/uploads/" + photo.FileName;
                     }
-                    employees.Photo = "/uploads/" + photo.FileName;
+
+
+                    _employeeDomain.Insert(employees);
+                    return RedirectToAction("Index", "Employee");
                 }
-                _employeeDomain.Insert(employees);
-                return RedirectToAction("Index", "Employee");
+                else
+                {
+                    ModelState.AddModelError("", "لايمكن اضافة ايميل موجود مسبقا");
+                }
+
+                
             }
 
-            return View("AddEmployee", employees);
+            return View(employees);
         }
 
         public IActionResult EditEmployee(int id)
@@ -53,7 +66,7 @@ namespace WebApplicationEmployeeManagement.Controllers
             return View(employee);
         }
 
-        public IActionResult ModifyEmployee(Employees employees,IFormFile? photo)
+        public IActionResult ModifyEmployee(Employees employees, IFormFile? photo)
         {
             if (ModelState.IsValid)
             {

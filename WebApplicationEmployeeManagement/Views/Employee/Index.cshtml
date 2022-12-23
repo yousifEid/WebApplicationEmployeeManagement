@@ -15,6 +15,9 @@
             <th>Photo</th>
             <th>JobTitle</th>
             <th>Gender</th>
+            <th>Mail</th>
+            <th>Telephone</th>
+            <th>IdJob</th>
             <th></th>
             <th></th>
         </tr>
@@ -32,6 +35,9 @@
                 </td>
                 <td>@item.JobTitle</td>
                 <td>@item.Gender</td>
+                <td>@item.Mail</td>
+                <td>@item.Tel</td>
+                <td>@item.IdJob</td>
 
                 <td>
                     <a class="btn btn-warning" asp-action="EditEmployee" asp-route-id="@item.Id">Edit</a>
