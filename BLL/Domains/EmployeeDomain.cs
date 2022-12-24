@@ -1,4 +1,5 @@
-﻿using DAL.Models;
+﻿using BLL.Dtos;
+using DAL.Models;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,30 @@ namespace BLL.Domains
             _employeeRepository = employeeRepository;
         }
 
-        public Employees Insert(Employees employees)
+        public EmployeeObject Insert(Employees employees)
         {
-            return _employeeRepository.Insert(employees);
+            EmployeeObject employeeObject = new EmployeeObject();
+
+            var employeesByName = _employeeRepository.SearchName(employees.Name);
+            if (employeesByName == null)
+            {
+                var employeesByEmail = _employeeRepository.SearchMail(employees.Mail);
+                if (employeesByEmail == null)
+                {
+                    employeeObject.Data = _employeeRepository.Insert(employees);
+                }
+                else
+                {
+                    employeeObject.ErrorMessage = "لايمكن اضافة ايميل موجود مسبقا";
+                }
+
+            }
+            else
+            {
+                employeeObject.ErrorMessage = "الاسم موجود مسبقا";
+            }
+
+            return employeeObject;
         }
 
         public Employees Update(Employees employees)
