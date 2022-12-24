@@ -30,31 +30,38 @@ namespace WebApplicationEmployeeManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employeesByEmail = _employeeDomain.SearchMail(employees.Mail);
-                if (employeesByEmail == null)
+                var employeesByName = _employeeDomain.SearchName(employees.Name);
+                if (employeesByName == null)
                 {
-
-                    if (photo != null)
+                    var employeesByEmail = _employeeDomain.SearchMail(employees.Mail);
+                    if (employeesByEmail == null)
                     {
-                        var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                        var filePath = Path.Combine(uploads, photo.FileName);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
+
+                        if (photo != null)
                         {
-                            photo.CopyTo(stream);
+                            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                            var filePath = Path.Combine(uploads, photo.FileName);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                photo.CopyTo(stream);
+                            }
+                            employees.Photo = "/uploads/" + photo.FileName;
                         }
-                        employees.Photo = "/uploads/" + photo.FileName;
+
+
+                        _employeeDomain.Insert(employees);
+                        return RedirectToAction("Index", "Employee");
                     }
-
-
-                    _employeeDomain.Insert(employees);
-                    return RedirectToAction("Index", "Employee");
+                    else
+                    {
+                        ModelState.AddModelError("", "لايمكن اضافة ايميل موجود مسبقا");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "لايمكن اضافة ايميل موجود مسبقا");
+                    ModelState.AddModelError("", "الاسم موجود مسبقا");
                 }
 
-                
             }
 
             return View(employees);

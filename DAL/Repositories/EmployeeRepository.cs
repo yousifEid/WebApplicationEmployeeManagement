@@ -58,5 +58,11 @@ namespace DAL.Repositories
             var employee = _db.Employees.Include(e=>e.Attendances).Where(e => e.Mail == mail).FirstOrDefault();
             return employee;
         }
+
+        public Employees SearchName(string name)
+        {
+            var employee = _db.Employees.Include(e => e.Attendances).Where(e => e.Name == name).FirstOrDefault();
+            return employee;
+        }
     }
 }

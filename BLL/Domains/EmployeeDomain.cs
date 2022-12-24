@@ -46,5 +46,10 @@ namespace BLL.Domains
         {
             return _employeeRepository.SearchMail(mail);
         }
+
+        public Employees SearchName(string name)
+        {
+            return _employeeRepository.SearchName(name);
+        }
     }
 }
