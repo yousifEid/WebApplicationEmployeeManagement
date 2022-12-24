@@ -18,9 +18,9 @@ namespace BLL.Domains
             _attendanceRepository = attendanceRepository;
         }
 
-        public ResponseObject Insert(Attendance attendance)
+        public ResponseObject<Attendance> Insert(Attendance attendance)
         {
-            ResponseObject result = new ResponseObject();
+            ResponseObject<Attendance> result = new ResponseObject<Attendance>();
 
             if (attendance.TimeLeave <= DateTime.Now)
             {
@@ -49,9 +49,9 @@ namespace BLL.Domains
             return result;
         }
 
-        public ResponseObject Update(Attendance attendance)
+        public ResponseObject<Attendance> Update(Attendance attendance)
         {
-            ResponseObject result = new ResponseObject();
+            ResponseObject<Attendance> result = new ResponseObject<Attendance>();
 
             if (attendance.TimeLeave <= DateTime.Now)
             {

@@ -18,9 +18,9 @@ namespace BLL.Domains
             _employeeRepository = employeeRepository;
         }
 
-        public EmployeeObject Insert(Employees employees)
+        public ResponseObject<Employees> Insert(Employees employees)
         {
-            EmployeeObject employeeObject = new EmployeeObject();
+            ResponseObject<Employees> employeeObject = new ResponseObject<Employees>();
 
             var employeesByName = _employeeRepository.SearchName(employees.Name);
             if (employeesByName == null)

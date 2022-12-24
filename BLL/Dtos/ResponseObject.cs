@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BLL.Dtos
 {
-    public class ResponseObject
+    public class ResponseObject<T>
     {
-        public Attendance Data { get; set; }
+        public T Data { get; set; }
         public string ErrorMessage { get; set; }
     }
 }
